@@ -5,6 +5,11 @@ date: "`r Sys.Date()`"
 output: pdf_document
 ---
 
+```{r echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
 ```{r import data and load packages, message=FALSE, warning=FALSE}
 source("load-data.R")
 ```
@@ -17,6 +22,15 @@ theme_plots <- function() {
 theme_set(theme_plots())
 ```
 
+# Matches by Year
+
+Key takeaways:
+
+- Massive growth of the game over time, especially following 1950 ("modern era")
+
+- Periodic changes over time: most notably, spikes in the year before a World Cup and the year of the World Cup. This is likely due to qualifying matches and the Cup itself.
+
+- Sporadic dips due to global events: most notable on the graph are World War I, World War III, and the COVID-19 pandemic.
 
 ```{r games played over time}
 ggplot(results, aes(x = year(date))) +
@@ -27,6 +41,18 @@ ggplot(results, aes(x = year(date))) +
        title = "International Soccer Matches by Year",
        y = "Games Played")
 ```
+
+\newpage 
+
+# Games by Tournament Type
+
+Key takeaways: 
+
+- Friendly matches account for 2x the quantity of all other matches. Should probably be considered differently in ratings system, since teams typically use them to give new players an opportunity and aren't at full strength. 
+
+- Most major tournaments featured in the data (World Cup, AFCON, Asian Cup) still exist. However, Caribbean Cup and CECAFA cup don't exist anymore due to confederation realignment. 
+
+- Maybe not a good idea to use tournament type as a key variable outside of friendly vs. non-friendly indicator?
 
 ```{r tournament types}
 results %>%
@@ -40,6 +66,18 @@ results %>%
   as.data.frame()
 
 ```
+
+\newpage 
+
+# Home Team Advantage over Time
+
+Key takeaways: 
+
+- Home field advantage remains remarkably stable over time
+
+- Not surprisingly, a noticeable dip in HFA occurred in 2020, the COVID-19 season. A few potential explanations: no fans in the stands? Match cancellations disproportionately affected imbalanced home-away contests?
+
+- Need to account for the fact that home teams are generally better than away teams in international matches, especially friendlies. Might want to use matches where teams have no choice in whether they play at home or away to ID true HCA factor, or pull in findings from club football.
 
 ```{r team prevalence and performance}
 home_results <- results %>%
@@ -64,5 +102,36 @@ ggplot(home_results %>% filter(year >= 1960), aes(x = year, y = count,
        y = "Proportion of Results for Home Team",
        x = "Year (1960-2024)") +
   scale_y_continuous(labels = scales::percent)
+```
+
+\newpage
+
+# Goals Over Time
+
+Key takeaways:
+
+- Consistent decrease in goals per game persisting into the late 1980s and beginning around 1950
+
+- These correlate with efforts in FIFA governing body's rulemaking! In the late 1980's, FIFA tweaked the Laws of the Game to increase scoring (e.g. "tie goes to the attacker" on offside rulings took effect in 1990 and the banning of back-passes to the keeper in 1992)
+
+- Since those rule changes, goals per game remain stable at approximately 2.8 goals per game. 
+
+```{r goals over time}
+goals_per_game <- results %>%
+  mutate(goals = home_score + away_score) %>%
+  group_by(year = year(date)) %>%
+  summarise(games = n(),
+            goals = sum(goals),
+            goals_per = goals / games)
+
+ggplot(goals_per_game %>% filter(year >= 1930), aes(x = year, y = goals_per)) +
+  geom_line() +
+  geom_point() +
+  scale_y_continuous(limits = c(0,5)) +
+  scale_x_continuous(breaks = seq(1930,2020,10)) +
+  theme(panel.grid.minor.x = element_blank()) +
+  labs(x = "Year (1930-2024)",
+       y = "Goals Scored per Game",
+       title = "The Decline of Goalscoring Over Time")
 ```
 
