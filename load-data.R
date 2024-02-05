@@ -11,7 +11,6 @@
 # install.packages("devtools")
 # devtools::install_github("JaseZiv/worldfootballR")
 
-
 # Necessary Package Loads -------------------------------------------------
 
 library(worldfootballR)

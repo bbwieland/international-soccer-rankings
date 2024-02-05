@@ -1,0 +1,68 @@
+---
+title: "International Matchups EDA"
+author: "Ben Wieland"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r import data and load packages, message=FALSE, warning=FALSE}
+source("load-data.R")
+```
+
+```{r}
+theme_plots <- function() {
+  theme_bw()
+}
+
+theme_set(theme_plots())
+```
+
+
+```{r games played over time}
+ggplot(results, aes(x = year(date))) +
+  geom_bar(color = "black", fill = "black") +
+  scale_x_continuous(breaks = seq(1870, 2020, 10)) +
+  theme(panel.grid.minor.x = element_blank()) +
+  labs(x = "Year (1870-2024)",
+       title = "International Soccer Matches by Year",
+       y = "Games Played")
+```
+
+```{r tournament types}
+results %>%
+  group_by(tournament) %>%
+  summarize(matches = n(),
+            first_played = min(year(date)),
+            last_played = max(year(date))) %>%
+  arrange(-matches) %>%
+  mutate(matches = formatC(matches, format = "d", big.mark = ",")) %>%
+  head(10) %>%
+  as.data.frame()
+
+```
+
+```{r team prevalence and performance}
+home_results <- results %>%
+  group_by(year = year(date)) %>%
+  summarise(Win = length(home_result[home_result == "W"]),
+            Draw = length(home_result[home_result == "D"]),
+            Loss = length(home_result[home_result == "L"])) %>%
+  pivot_longer(cols = c(Win, Draw, Loss), names_to = "result",
+               values_to = "count") %>%
+  mutate(result = factor(result, levels = c("Win","Draw","Loss")))
+
+ggplot(home_results %>% filter(year >= 1960), aes(x = year, y = count, 
+                                                  fill = result),
+       color = "white") +
+  geom_col(position = "fill") +
+  scale_fill_manual(values = c("Win" = "darkgreen",
+                                "Draw" = "grey",
+                                "Loss" = "tomato")) +
+  coord_flip() +
+  scale_x_reverse() +
+  labs(title = "Home Field Advantage Remains Nearly Constant over Time",
+       y = "Proportion of Results for Home Team",
+       x = "Year (1960-2024)") +
+  scale_y_continuous(labels = scales::percent)
+```
+
