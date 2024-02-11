@@ -1,0 +1,34 @@
+---
+title: "Home-Field Advantage Investigation"
+author: "Ben Wieland"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r import data and load packages, message=FALSE, warning=FALSE}
+source("load-data.R")
+```
+
+```{r}
+results %>%
+  filter(neutral == FALSE) %>%
+  mutate(score_diff = home_score - away_score) %>%
+  group_by(tournament) %>%
+  summarise(games = n(),
+            home_wins = length(home_result[home_result == "W"]),
+            home_draws = length(home_result[home_result == "D"]),
+            home_losses = length(home_result[home_result == "L"]),
+            home_win_pct = home_wins / games,
+            home_draw_pct = home_draws / games,
+            home_loss_pct = home_losses / games,
+            home_score_diff = mean(score_diff)) %>%
+  arrange(-home_score_diff) %>%
+  filter(games >= 150) %>%
+  select(tournament, home_win_pct:home_score_diff)
+```
+

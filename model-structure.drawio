@@ -1,0 +1,90 @@
+<mxfile host="app.diagrams.net" modified="2024-02-11T20:46:44.149Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="PdUggrdPEvYH_m0EHQSX" version="23.1.2" type="device">
+  <diagram name="Page-1" id="MBRTU2_Lh8ven0q5T4l3">
+    <mxGraphModel dx="1990" dy="968" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-2" target="1O-5M4IdCn3i6dPiheQ8-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-2" value="Joint distribution: $$BPois(\lambda_1, \lambda_2)$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="440" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-3" target="1O-5M4IdCn3i6dPiheQ8-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-3" value="Goal distribution of Team 1:&lt;br&gt;&amp;nbsp;$$\lambda_1 \sim \beta_0 + \theta_{Oi} + \theta_{D_j} + H_i*B_1$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="290" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-6" target="1O-5M4IdCn3i6dPiheQ8-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-6" value="Goal distribution of Team 2:&lt;br&gt;&amp;nbsp;$$\lambda_2 \sim \beta_0 + \theta_{Di} + \theta_{O_j} + H_j*\beta_1$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="290" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-8" target="1O-5M4IdCn3i6dPiheQ8-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-8" target="1O-5M4IdCn3i6dPiheQ8-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-8" value="Global goal intercept and home-court effect $$\{\beta_0,\beta_1\}$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="485" y="170" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-13" target="1O-5M4IdCn3i6dPiheQ8-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="345" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-13" target="1O-5M4IdCn3i6dPiheQ8-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="755" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-13" value="Team-specific offensive and defensive parameters:&lt;br&gt;&lt;br&gt;$$\{\theta_{Oi}, \theta_{Di}, \theta_{Oj}, \theta_{Dj}\}$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="80" width="320" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-16" target="1O-5M4IdCn3i6dPiheQ8-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-16" value="Home-field indicator $$H_i\sim\begin{matrix}1&amp;amp;home\\0&amp;amp;neutral\\-1&amp;amp;away\\\end{matrix}$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="290" width="150" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-17" target="1O-5M4IdCn3i6dPiheQ8-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-17" value="Home-field indicator $$H_i\sim\begin{matrix}1&amp;amp;home\\0&amp;amp;neutral\\-1&amp;amp;away\\\end{matrix}$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="290" width="150" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-22" target="1O-5M4IdCn3i6dPiheQ8-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-22" value="Draw-inflated joint distribution:&lt;br&gt;$$BPois(\lambda_1, \lambda_2) * D$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="570" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-24" target="1O-5M4IdCn3i6dPiheQ8-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-24" value="Draw-inflation matrix:&lt;br&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;$$\begin{bmatrix}d &amp;amp; 1 &amp;amp; 1 \\ 1 &amp;amp; d &amp;amp; 1 \\ 1 &amp;amp; 1 &amp;amp; d \end{bmatrix}$$&lt;br&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="710" y="545" width="170" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="1O-5M4IdCn3i6dPiheQ8-25" target="1O-5M4IdCn3i6dPiheQ8-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-25" value="Draw parameter to account for overrepresentation $$d; d \geq 1$$" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="755" y="450" width="275" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-28" value="Win, loss, draw probabilities from top half, bottom half, and diagonal of bivariate Poisson matrix, respectively." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="379.5" y="700" width="340" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="1O-5M4IdCn3i6dPiheQ8-30" value="&lt;b&gt;&lt;font style=&quot;font-size: 24px;&quot;&gt;Parametrization: Soccer-Specific Match Outcome Probability Modeling&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="132" y="40" width="835" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
