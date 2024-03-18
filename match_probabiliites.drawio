@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" modified="2024-02-25T16:24:01.496Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="T0WRSoedNmFD1IoK-9SD" version="23.1.2" type="device">
+  <diagram name="Page-1" id="0eYQVbvTDcHcHWVUyeB9">
+    <mxGraphModel dx="1038" dy="505" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="88rk2t7cM33Tp9ZcFZzz-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="88rk2t7cM33Tp9ZcFZzz-1" target="88rk2t7cM33Tp9ZcFZzz-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="88rk2t7cM33Tp9ZcFZzz-1" value="Numeric Team Ratings" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="180" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="88rk2t7cM33Tp9ZcFZzz-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="88rk2t7cM33Tp9ZcFZzz-2" target="88rk2t7cM33Tp9ZcFZzz-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="88rk2t7cM33Tp9ZcFZzz-2" value="Matrix of Potential Results&lt;br&gt;(Bivariate Possion)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="180" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="88rk2t7cM33Tp9ZcFZzz-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="88rk2t7cM33Tp9ZcFZzz-3" target="88rk2t7cM33Tp9ZcFZzz-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="88rk2t7cM33Tp9ZcFZzz-3" value="Multiplication along Diagonal for Draw Inflation" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="180" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="88rk2t7cM33Tp9ZcFZzz-4" value="Win/Loss/Draw Probabilities from Summing Matrix" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="180" width="160" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

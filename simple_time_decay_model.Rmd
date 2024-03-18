@@ -99,3 +99,198 @@ net_eff_clean %>%
   head(10)
 ```
 
+```{r}
+games_played <- team_results %>%
+  group_by(team) %>%
+  count() %>%
+  rename(games_played = n)
+
+net_eff_clean <- net_eff_clean %>%
+  left_join(games_played, by = "team")
+```
+
+# Match Prediction Visualization
+
+2022 World Cup final: 
+
+```{r Getting Data}
+france <- net_eff_clean %>%
+  filter(team == "France")
+
+argentina <- net_eff_clean %>%
+  filter(team == "Argentina")
+
+avg_goals <- mean(team_results$score)
+
+france_xgoals <- avg_goals + france$o_effect + argentina$d_effect
+argentina_xgoals <- avg_goals + argentina$o_effect + france$d_effect
+```
+
+```{r Building Match Distribution}
+library(bivpois)
+
+get_score_likelihood <- function(team1, team2, go_to = 5) {
+  
+  goals <- expand.grid(seq(0,go_to), seq(0,go_to))
+  
+  lik <- map2_vec(.x = goals$Var1, .y = goals$Var2, .f = ~ bivpois::dbp(
+    x1 = .x, x2 = .y, lambda = c(team1, team2, 0), logged = FALSE
+  ))
+  
+  goals <- cbind(goals, lik)
+  colnames(goals) <- c("ARG", "FRA", "lik")
+  return(goals)
+
+}
+
+likelihoods <- get_score_likelihood(argentina_xgoals, france_xgoals)
+```
+
+```{r Visualizing Match Distribution}
+ggplot(likelihoods, aes(x = ARG, y = FRA)) +
+  geom_tile(color = "black", aes(fill = lik), show.legend = FALSE) +
+  scale_fill_gradient(low = "white", high = "tomato") +
+  geom_text(aes(label = round(lik, 3))) +
+  theme_classic() +
+  scale_x_continuous(breaks = seq(0,5)) +
+  scale_y_continuous(breaks= seq(0,5)) +
+  coord_equal() +
+  labs(x = "Argentina", y = "France")
+```
+
+```{r Visualization Part 2}
+likelihoods <- likelihoods %>%
+  mutate(result = case_when(
+    ARG > FRA ~ "W",
+    ARG == FRA ~ "D",
+    ARG < FRA ~ "L",
+    TRUE ~ NA
+  )) %>%
+  mutate(lik = ifelse(result == "D", lik * 1.1, lik))
+
+# rescaling to be valid PMF
+
+scale_factor <- 1 / sum(likelihoods$lik)
+
+likelihoods$lik <- likelihoods$lik * scale_factor
+
+ggplot(likelihoods, aes(x = ARG, y = FRA)) +
+  geom_tile(color = "black", aes(fill = lik), show.legend = FALSE) +
+  scale_fill_gradient(low = "white", high = "tomato") +
+  geom_text(aes(label = round(lik, 3))) +
+  theme_classic() +
+  scale_x_continuous(breaks = seq(0,5)) +
+  scale_y_continuous(breaks= seq(0,5)) +
+  coord_equal() +
+  labs(x = "Argentina", y = "France")
+```
+
+
+```{r Visualization Part 3}
+
+ggplot(likelihoods, aes(x = ARG, y = FRA)) +
+  geom_tile(color = "black", aes(fill = result), show.legend = FALSE) +
+  scale_fill_manual(values = c("W" = "lightblue", "D" = "grey", "L" = "#0055A4")) +
+  geom_text(aes(label = round(lik, 3))) +
+  theme_classic() +
+  scale_x_continuous(breaks = seq(0,5)) +
+  scale_y_continuous(breaks= seq(0,5)) +
+  coord_equal() +
+  labs(x = "Argentina", y = "France")
+```
+
+```{r}
+match_probs <- likelihoods %>% 
+  group_by(result) %>% 
+  summarise(lik_sum = sum(lik)) %>%
+  mutate(team = "Argentina") %>%
+  mutate(result = factor(result, levels = c("W","D","L"))) %>%
+  mutate(team_result = paste(team, result)) %>%
+  arrange(result)
+
+library(gt)
+library(gtExtras)
+
+gt(match_probs %>% select(team_result, lik_sum)) %>%
+  cols_label(team_result = "Result",
+             lik_sum = "Odds") %>%
+  fmt_percent(lik_sum, decimals = 1) %>%
+  gt_theme_538()
+```
+
+# Team Ratings
+
+```{r}
+net_eff %>% 
+  arrange(-net_effect) %>%
+  select(team, o_effect, d_effect, net_effect) %>%
+  head(10) %>%
+  gt() %>%
+  cols_label(o_effect = "Offense",
+             d_effect = "Defense",
+             net_effect = "Total",
+             team = "Team") %>%
+  fmt_number(o_effect:net_effect, decimals = 2, force_sign = TRUE)
+```
+
+# Adjusting for Strength of Opposition
+
+Option 1: across the board
+
+```{r}
+net_join <- net_eff %>% 
+  select(team, o_effect, d_effect, net_effect)
+
+sos_data <- model_data %>%
+  left_join(net_join, by = c("team" = "team")) %>%
+  left_join(net_join, by = c("opponent" = "team"), suffix = c("_tm","_opp"))
+
+sos_ratings <- sos_data %>%
+  group_by(team) %>%
+  summarise(opp_sos = mean(net_effect_opp)) %>%
+  arrange(-opp_sos)
+
+adj_coef <- 0.4
+sos_net <- left_join(net_eff, sos_ratings, by = "team") %>%
+  mutate(adj_net = net_effect + adj_coef * opp_sos,
+         adj_eff = adj_net - net_effect) %>%
+  mutate(raw_rk = dense_rank(net_effect),
+         adj_rk = dense_rank(adj_net)) %>%
+  mutate(raw_rk = nrow(net_eff) + 1 - raw_rk,
+         adj_rk = nrow(net_eff) + 1 - adj_rk,
+         chg_eff = raw_rk - adj_rk) %>%
+  arrange(adj_rk)
+```
+
+```{r}
+sos_data <- model_data %>%
+  left_join(net_join, by = c("team" = "team")) %>%
+  left_join(net_join, by = c("opponent" = "team"), suffix = c("_tm","_opp"))
+
+model_preds <- sos_data %>%
+  mutate(xg = predict(off_model, .),
+         xga = predict(def_model, .))
+```
+
+```{r}
+model_eval <- model_preds %>% 
+  select(team, opponent, xg, xga, score, opp_score) %>%
+  mutate(xgd = xg - xga, 
+         gd = score - opp_score)
+```
+
+```{r}
+test_eval <- model_eval %>%
+  group_by(gd) %>%
+  summarise(avg_xgd = mean(xgd), n = n()) %>%
+  filter(abs(gd) <= 5)
+
+ggplot(test_eval, aes(x = gd, y = avg_xgd, size = n)) +
+  geom_point() +
+  coord_equal() +
+  scale_x_continuous(limits = c(-5,5), breaks = seq(-5,5)) +
+  scale_y_continuous(limits = c(-5,5), breaks = seq(-5,5)) +
+  theme_bw() +
+  geom_line(size = 1)
+```
+

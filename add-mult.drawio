@@ -1,0 +1,28 @@
+<mxfile host="app.diagrams.net" modified="2024-03-11T18:53:35.596Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="-rxplJAiUA2Gg3y-EKN3" version="23.1.6" type="device">
+  <diagram name="Page-1" id="qtrf0mAV5qfl3zTdU46a">
+    <mxGraphModel dx="1194" dy="581" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iuTfqTolt_u2pCpkTcmy-1" value="$$intercept +Tm1Off + Tm2Def$$" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="160" y="200" width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iuTfqTolt_u2pCpkTcmy-2" value="$$intercept + Tm2Off + Tm1Def$$" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="160" y="240" width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iuTfqTolt_u2pCpkTcmy-3" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Additive Model:&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="140" width="230" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="iuTfqTolt_u2pCpkTcmy-4" value="$$intercept + \frac{Tm1Off}{Tm2Def}$$" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="430" y="190" width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iuTfqTolt_u2pCpkTcmy-5" value="$$intercept + \frac{Tm2Off}{Tm1Def}$$" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="430" y="240" width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iuTfqTolt_u2pCpkTcmy-6" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Multiplicative Model:&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="140" width="230" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
