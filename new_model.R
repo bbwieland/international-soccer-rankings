@@ -111,6 +111,6 @@ wc_2022_pred_results <- map2_dfr(.x = wc_2022_eval$pred_score,
          .f = ~ predict_match(.x, .y))
 
 wc_2022_final <- cbind(wc_2022_eval, wc_2022_pred_results) %>%
-  mutate(is_draw = score == opp_score,
-         is_win = score > opp_score,
-         is_loss = score < opp_score)
+  mutate(is_draw = as.numeric(score == opp_score),
+         is_win = as.numeric(score > opp_score),
+         is_loss = as.numeric(score < opp_score))
