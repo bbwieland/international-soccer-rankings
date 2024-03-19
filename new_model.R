@@ -24,7 +24,7 @@ time_decay_function <- function(game_date, half_life, current_date = Sys.Date())
   return(decay_value)
 }
 
-model_half_life <- 365 * 3
+model_half_life <- 365 * 5
 
 model_data <- training_data %>%
   mutate(time_weight = time_decay_function(date, model_half_life)) 
@@ -114,3 +114,5 @@ wc_2022_final <- cbind(wc_2022_eval, wc_2022_pred_results) %>%
   mutate(is_draw = as.numeric(score == opp_score),
          is_win = as.numeric(score > opp_score),
          is_loss = as.numeric(score < opp_score))
+
+write_csv(wc_2022_final,"WorldCup2022Predictions.csv")
