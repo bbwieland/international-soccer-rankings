@@ -10,7 +10,7 @@ wc_2022_results <- team_results %>%
 wc_start_date <- min(wc_2022_results$date)
 
 training_data <- team_results %>%
-  filter(date < wc_start_date)
+  filter(date < wc_start_date & date > 1992)
 
 time_decay_function <- function(game_date, half_life, current_date = Sys.Date()) {
   
@@ -24,20 +24,30 @@ time_decay_function <- function(game_date, half_life, current_date = Sys.Date())
   return(decay_value)
 }
 
-model_half_life <- 365 * 5
+model_half_life <- 365 * 6
 
 model_data <- training_data %>%
   mutate(time_weight = time_decay_function(date, model_half_life)) 
 
-off_model <- lme4::glmer(score + 1 ~ (1 | team) + (1 | opponent) + location,
+# off_model <- lme4::glmer(score + 1 ~ (1 | team) + (1 | opponent) + location,
+#             data = model_data,
+#             weights = time_weight,
+#             family = Gamma(link = "identity"))
+# 
+# def_model <- lme4::glmer(opp_score + 1 ~ (1 | team) + (1 | opponent) + location,
+#                          data = model_data,
+#                          weights = time_weight,
+#                          family = Gamma(link = "identity"))
+
+off_model <- lme4::glmer(score ~ (1 | team) + (1 | opponent) + location,
             data = model_data,
             weights = time_weight,
-            family = Gamma(link = "identity"))
+            family = poisson)
 
-def_model <- lme4::glmer(opp_score + 1 ~ (1 | team) + (1 | opponent) + location,
+def_model <- lme4::glmer(opp_score ~ (1 | team) + (1 | opponent) + location,
                          data = model_data,
                          weights = time_weight,
-                         family = Gamma(link = "identity"))
+                         family = poisson)
 
 off_eff <- ranef(off_model) %>% 
   as.data.frame() %>% 
@@ -57,8 +67,8 @@ clip_predictions <- function(x) {
 }
 
 wc_2022_eval <- wc_2022_results %>%
-  mutate(pred_score = predict(off_model, wc_2022_results) - 1,
-         pred_opp_score = predict(def_model, wc_2022_results) - 1) %>%
+  mutate(pred_score = predict(off_model, wc_2022_results, type = "response"),
+         pred_opp_score = predict(def_model, wc_2022_results, type = "response")) %>%
   mutate(across(c(pred_score, pred_opp_score), clip_predictions))
 
 predict_match <- function(team1, team2) {
@@ -116,3 +126,9 @@ wc_2022_final <- cbind(wc_2022_eval, wc_2022_pred_results) %>%
          is_loss = as.numeric(score < opp_score))
 
 write_csv(wc_2022_final,"WorldCup2022Predictions.csv")
+
+# Gamma Distribution Analysis ---------------------------------------------
+
+# Dispersion and shape parameters allow us to observe the regression's 
+
+

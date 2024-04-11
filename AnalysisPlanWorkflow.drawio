@@ -1,0 +1,79 @@
+<mxfile host="app.diagrams.net" modified="2024-03-23T17:30:01.105Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="_N1C9122At7uZVXHAK0W" version="24.1.0" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1706" dy="830" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-5" target="hffF-PGnoq3ZM0w_EB8X-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-5" target="hffF-PGnoq3ZM0w_EB8X-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-5" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;Match Results&lt;/span&gt;&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;fontStyle=1" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="149" y="80" width="80" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-6" target="hffF-PGnoq3ZM0w_EB8X-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-6" value="&lt;b&gt;Offensive Ratings&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="79" y="190" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-7" target="hffF-PGnoq3ZM0w_EB8X-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-7" value="&lt;b&gt;Defensive&lt;/b&gt;&lt;div&gt;&lt;b&gt;Ratings&lt;/b&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="199" y="190" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-8" target="hffF-PGnoq3ZM0w_EB8X-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-8" value="&lt;b&gt;Team Ratings&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="139" y="280" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-9" target="hffF-PGnoq3ZM0w_EB8X-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-9" value="&lt;b&gt;Single Match Score Predictions&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="309" y="280" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-10" target="hffF-PGnoq3ZM0w_EB8X-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-10" value="&lt;b&gt;Match Result&lt;/b&gt;&lt;div&gt;&lt;b&gt;Distributions&lt;/b&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="469" y="280" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-11" value="&lt;div&gt;&lt;b&gt;Win/Loss/Draw&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Probabilities&lt;/b&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="629" y="280" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-22" target="hffF-PGnoq3ZM0w_EB8X-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-22" value="Home-field advantage&lt;div&gt;parameter&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="319" y="185" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-23" value="Goals per game parameter" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="314" y="100" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-23" target="hffF-PGnoq3ZM0w_EB8X-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-26" target="hffF-PGnoq3ZM0w_EB8X-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-26" value="Draw inflation&lt;div&gt;parameter&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="479" y="185" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-28" value="Bivariate Poisson&lt;div&gt;distribution&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="469" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="hffF-PGnoq3ZM0w_EB8X-28" target="hffF-PGnoq3ZM0w_EB8X-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hffF-PGnoq3ZM0w_EB8X-30" value="&lt;b&gt;&lt;font style=&quot;font-size: 24px;&quot;&gt;International Soccer Ratings Model Workflow&lt;/font&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="89" y="20" width="630" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
