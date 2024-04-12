@@ -1,6 +1,6 @@
 # Global Variables:
 
-filepath <- "/Users/ben/Desktop/Coursework 24S/STAT Capstone/international-soccer-rankings/"
+filepath <- "https://github.com/bbwieland/international-soccer-rankings/"
 
 source(paste0(filepath, "app-functions.R"))
 
