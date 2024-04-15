@@ -49,6 +49,10 @@ def_model <- lme4::glmer(opp_score ~ (1 | team) + (1 | opponent) + location,
                          weights = time_weight,
                          family = poisson)
 
+saveRDS(off_model, file = "OffModel.RDS") 
+saveRDS(def_model, file = "DefModel.RDS") 
+
+
 off_eff <- ranef(off_model) %>% 
   as.data.frame() %>% 
   filter(grpvar == "team") %>%

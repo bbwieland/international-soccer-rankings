@@ -1,10 +1,216 @@
 # Global Variables:
 
-filepath <- "https://github.com/bbwieland/international-soccer-rankings/"
+library(shiny)
+library(shinythemes)
+library(readr)
+library(reactable)
+library(reactablefmtr)
+library(markdown)
+library(dplyr)
+library(devtools)
+library(bivpois)
+library(purrr)
 
-source(paste0(filepath, "app-functions.R"))
+clean_rankings <- function(df) {
+  # Purpose: pre-processes the `rankings` dataframe for clean output.
+  output <- df %>%
+    mutate(o_rk = dense_rank(-o_effect),
+           d_rk = dense_rank(d_effect),
+           n_rk = dense_rank(-net_effect)) %>%
+    select(team, 
+           n_val = net_effect, n_rk, 
+           o_val = o_effect, o_rk, 
+           d_val = d_effect, d_rk) %>%
+    arrange(n_rk)
+}
 
-rankings <- read_csv(paste0(filepath, "ModelRankings.csv")) %>% clean_rankings()
+react_rankings <- function(df, rank_width = 50, rank_font = 14, val_width = 100, val_font = 18) {
+  reactable(
+    df,
+    theme = table_theme(),
+    pagination = FALSE,
+    searchable = TRUE,
+    highlight = TRUE,
+    language = reactableLang(searchPlaceholder = "Filter by team...",
+                             noData = "Enter a valid team name."),
+    columns = list(
+      o_rk = colDef(name = "",
+                    width = rank_width,
+                    style = cell_style(font_size = rank_font, vertical_align = "center"),
+                    align = "center",
+                    sortable = FALSE),
+      d_rk = colDef(name = "",
+                    width = rank_width,
+                    style = cell_style(font_size = rank_font, vertical_align = "center"),
+                    align = "center",
+                    sortable = FALSE),
+      n_rk = colDef(name = "",
+                    width = rank_width,
+                    style = cell_style(font_size = rank_font, vertical_align = "center"),
+                    align = "center",
+                    sortable = FALSE),
+      o_val = colDef(name = "OFF RTG",
+                     width = val_width,
+                     cell = net_rating_format,
+                     defaultSortOrder = "desc"),
+      d_val = colDef(name = "DEF RTG",
+                     width = val_width,
+                     cell = net_rating_format,
+                     defaultSortOrder = "asc"),
+      n_val = colDef(name = "NET RTG",
+                     width = val_width,
+                     cell = net_rating_format,
+                     defaultSortOrder = "desc"),
+      team = colDef(name = "Team",
+                    width = 300)
+    )
+  )
+}
+
+# Utility Functions -------------------------------------------------------
+
+table_theme <- function() {
+  font_size = 18
+  font_color = "#222222"
+  header_font_size = 14
+  header_font_color = "#000000"
+  cell_padding = 5
+  centered_content = NULL
+  
+  reactableTheme(
+    cellStyle = centered_content,
+    color = font_color,
+    backgroundColor = "#ffffff",
+    borderWidth = "1px",
+    borderColor = "#dddddd",
+    stripedColor = "#dddddd",
+    highlightColor = "#f0f0f0",
+    cellPadding = cell_padding,
+    tableStyle = list(fontSize = font_size,
+                      borderBottom = "3px solid #222222"),
+    headerStyle = list(
+      borderWidth = "3px",
+      paddingTop = "12px",
+      verticalAlign = "bottom",
+      textAlign = "bottom",
+      background = "#ffffff",
+      textTransform = "uppercase",
+      borderColor = "#222222",
+      color = header_font_color,
+      `&:hover` = list(background = "#dddddd"),
+      `&[aria-sort='ascending'], &[aria-sort='descending']` = list(background = "#5b5e5f",
+                                                                   color = "#ffffff"),
+      borderColor = "#333",
+      fontSize = header_font_size
+    ),
+    groupHeaderStyle = list(
+      `&:not(:empty)` = list(
+        paddingBottom = "3px",
+        verticalAlign = "bottom",
+        textAlign = "bottom",
+        backgroundColor = "#ffffff",
+        textTransform = "uppercase",
+        fontSize = header_font_size,
+        color = font_color
+      )
+    ),
+    inputStyle = list(
+      backgroundColor = "#ffffff",
+      color = "#222222"
+    ),
+    rowSelectedStyle = list(backgroundColor = "#dddddd"),
+    pageButtonStyle = list(textTransform = "uppercase",
+                           fontSize = "14px"),
+    paginationStyle = list(textTransform = "uppercase",
+                           fontSize = "14px"),
+    searchInputStyle = list(
+      paddingLeft = "0.5rem",
+      paddingTop = "0.5rem",
+      paddingBottom = "0.5rem",
+      width = "100%",
+      border = "none",
+      backgroundColor = "white",
+      backgroundSize = "1rem",
+      backgroundPosition = "left 0.5rem center",
+      backgroundRepeat = "no-repeat",
+      "&:focus" = list(backgroundColor = "rgba(255, 255, 255, 0.1)", border = "none"),
+      "&:hover::placeholder, &:focus::placeholder" = list(color = "#222222"),
+      fontSize = font_size
+    )
+  )
+}
+
+net_rating_format <- function(x)
+  sprintf("%+.2f", x)
+
+# import Data -------------------------------------------------------------
+
+rankings <- read_csv("https://raw.githubusercontent.com/bbwieland/international-soccer-rankings/main/ModelRankings.csv") %>% clean_rankings()
+
+off_model <- readRDS(gzcon(url("https://raw.github.com/bbwieland/international-soccer-rankings/main/OffModel.RDS")))
+def_model <- readRDS(gzcon(url("https://raw.github.com/bbwieland/international-soccer-rankings/main/DefModel.RDS")))
+
+# Prediction Function -----------------------------------------------------
+
+clip_predictions <- function(x) {
+  ifelse(x < 0.05, 0.05, x)
+}
+
+predict_match <- function(team1, team2, location) {
+  # location = (1 = home, 0 = neutral, -1 = away)
+  
+  location_numeric <- case_when(
+    location == "Home" ~ 1,
+    location == "Neutral" ~ 0,
+    location == "Away" ~ -1,
+    TRUE ~ NA)
+  
+  prediction_df <- data.frame(team = team1, opponent = team2, location = location_numeric)
+  team_goals <- predict(off_model, prediction_df, type = "response") %>% clip_predictions()
+  opp_goals <- predict(def_model, prediction_df, type = "response") %>% clip_predictions()
+  
+  go_to = 10
+  
+  goals <- expand.grid(seq(0,go_to), seq(0,go_to))
+  
+  lik <- map2_vec(.x = goals$Var1, .y = goals$Var2, .f = ~ dbp(
+    x1 = .x, x2 = .y, lambda = c(team_goals, opp_goals, 0), logged = FALSE
+  ))
+  
+  likelihoods <- cbind(goals, lik)
+
+  likelihoods <- likelihoods %>%
+    mutate(result = case_when(
+      Var1 > Var2 ~ "W",
+      Var1 == Var2 ~ "D",
+      Var1 < Var2 ~ "L",
+      TRUE ~ NA
+    )) %>%
+    mutate(lik = ifelse(result == "D", lik * 1.1, lik))
+
+  # rescaling to be valid PMF
+  
+  scale_factor <- 1 / sum(likelihoods$lik)
+  
+  likelihoods$lik <- likelihoods$lik * scale_factor
+  
+  match_probs <- likelihoods %>% 
+    group_by(result) %>% 
+    summarise(lik_sum = sum(lik)) %>%
+    mutate(result = factor(result, levels = c("W","D","L"))) %>%
+    t() %>%
+    data.frame() %>%
+    janitor::row_to_names(row_number = 1) %>%
+    magrittr::set_rownames(NULL) %>%
+    select(W, D, L)
+  
+  return(match_probs)
+}
+
+predict_match("Argentina","France","Neutral")
+# Necessary Variables -----------------------------------------------------
+
+teams <- unique(rankings$team)
 
 # UI ----------------------------------------------------------------------
 
@@ -14,7 +220,17 @@ ui <- fluidPage(
   tabsetPanel(
     tabPanel("Rankings",
              reactableOutput("homepage")),
-    tabPanel("Projections"),
+    tabPanel("Projections",
+             sidebarLayout(
+               sidebarPanel(
+                 selectInput("team1", "Select the first team:", choices = teams, selected = "Argentina"),
+                 selectInput("team2", "Select the second team:", choices = teams, selected = "France"),
+                 selectInput("location", "Select the game location:", choices = c("Home","Neutral","Away"), selected = "Neutral")
+               ),
+               mainPanel(
+                 tableOutput("prediction")
+               )
+             )),
     tabPanel("Methodology")
   )
 )
@@ -24,6 +240,9 @@ ui <- fluidPage(
 server <- function(input, output) {
   rankings_output <- react_rankings(rankings)
   output$homepage <- renderReactable(rankings_output)
+  
+  match_prediction <- reactive({predict_match(input$team1, input$team2, input$location)})
+  output$prediction <- renderTable(match_prediction())
 }
 
 # Run the application 

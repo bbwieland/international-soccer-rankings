@@ -5,6 +5,7 @@ library(reactable)
 library(reactablefmtr)
 library(markdown)
 library(dplyr)
+library(devtools)
 
 clean_rankings <- function(df) {
   # Purpose: pre-processes the `rankings` dataframe for clean output.
