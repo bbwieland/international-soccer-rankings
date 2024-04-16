@@ -1,5 +1,4 @@
 # Global Variables:
-
 library(shiny)
 library(shinythemes)
 library(readr)
@@ -10,6 +9,10 @@ library(dplyr)
 library(devtools)
 library(bivpois)
 library(purrr)
+library(janitor)
+library(magrittr)
+library(tidyverse)
+library(lme4)
 
 clean_rankings <- function(df) {
   # Purpose: pre-processes the `rankings` dataframe for clean output.
@@ -200,8 +203,8 @@ predict_match <- function(team1, team2, location) {
     mutate(result = factor(result, levels = c("W","D","L"))) %>%
     t() %>%
     data.frame() %>%
-    janitor::row_to_names(row_number = 1) %>%
-    magrittr::set_rownames(NULL) %>%
+    row_to_names(row_number = 1) %>%
+    set_rownames(NULL) %>%
     select(W, D, L)
   
   return(match_probs)
