@@ -82,7 +82,7 @@ mass function which sums to 1.
 ```
 
 ```{r, out.width="1\\linewidth", include=TRUE, fig.align="center", echo=FALSE}
-knitr::include_graphics("~/Desktop/Capstone/ResultsMatrix.drawio-cropped.pdf")
+knitr::include_graphics("ResultsMatrix.drawio-cropped.pdf")
 ```
 
 ```
