@@ -143,8 +143,37 @@ table_theme <- function() {
   )
 }
 
-net_rating_format <- function(x)
+net_rating_format <- function(x) {
   sprintf("%+.2f", x)
+}
+
+percent_format <- function(x) {
+  sprintf("%1.1f%%", 100*x)
+}
+
+build_match_dataviz <- function(results_df, team1, team2, location) {
+  
+  title_string <- paste0("\n",team1, " vs. ", team2)
+  
+  p_w <- results_df[which(results_df$result == "W"), "lik_sum", drop = TRUE] %>% percent_format()
+  p_d <- results_df[which(results_df$result == "D"), "lik_sum", drop = TRUE] %>% percent_format()
+  p_l <- results_df[which(results_df$result == "L"), "lik_sum", drop = TRUE] %>% percent_format()
+  
+  subtitle_string <- paste0("\n","Match Location: ", location, "\n","Win: ", p_w, " | Draw: ", p_d, " | Loss: ", p_l)
+  caption_string = "Created via Team JUDE's international soccer ratings algorithm & R Shiny application."
+  
+  ggplot(results_df, aes(fill = result, x = lik_sum, y = placeholder)) +
+    geom_col(show.legend = FALSE, color = "white") +
+    theme_void(base_family = "Chivo") +
+    scale_fill_manual(values = c("L" = "#cc7cde", "D" = "#e0e0e0", "W" = "#6ceb70")) +
+    labs(title = title_string,
+         subtitle = subtitle_string,
+         caption = caption_string) +
+    theme(plot.title = element_text(face = "bold", size = 36, hjust = 0.5),
+          plot.subtitle = element_text(face = "bold", size = 20, hjust = 0.5),
+          plot.caption = element_text(size = 16, hjust = 0.5))
+  
+}
 
 # import Data -------------------------------------------------------------
 
@@ -200,17 +229,11 @@ predict_match <- function(team1, team2, location) {
   match_probs <- likelihoods %>% 
     group_by(result) %>% 
     summarise(lik_sum = sum(lik)) %>%
-    mutate(result = factor(result, levels = c("W","D","L"))) %>%
-    t() %>%
-    data.frame() %>%
-    row_to_names(row_number = 1) %>%
-    set_rownames(NULL) %>%
-    select(W, D, L)
+    mutate(result = factor(result, levels = c("L","D","W")))
   
   return(match_probs)
 }
 
-predict_match("Argentina","France","Neutral")
 # Necessary Variables -----------------------------------------------------
 
 teams <- unique(rankings$team)
@@ -231,7 +254,8 @@ ui <- fluidPage(
                  selectInput("location", "Select the game location:", choices = c("Home","Neutral","Away"), selected = "Neutral")
                ),
                mainPanel(
-                 tableOutput("prediction")
+                 #tableOutput("prediction"),
+                 plotOutput("prediction_bar")
                )
              )),
     tabPanel("Methodology")
@@ -245,7 +269,9 @@ server <- function(input, output) {
   output$homepage <- renderReactable(rankings_output)
   
   match_prediction <- reactive({predict_match(input$team1, input$team2, input$location)})
-  output$prediction <- renderTable(match_prediction())
+  # output$prediction <- renderTable(match_prediction())
+  output$prediction_bar <- renderPlot(build_match_dataviz(match_prediction() %>% mutate(placeholder = ""),
+                                                          input$team1, input$team2, input$location))
 }
 
 # Run the application 
