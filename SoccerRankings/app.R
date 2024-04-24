@@ -244,20 +244,22 @@ ui <- fluidPage(
   theme = shinytheme("yeti"),
   titlePanel("JUDE International Soccer Ratings", windowTitle = "JUDE Ratings"),
   tabsetPanel(
-    tabPanel("Rankings",
+    tabPanel("Team Rankings",
              reactableOutput("homepage")),
-    tabPanel("Projections",
+    tabPanel("Match Projections",
              sidebarLayout(
                sidebarPanel(
                  selectInput("team1", "Select the first team:", choices = teams, selected = "Argentina"),
                  selectInput("team2", "Select the second team:", choices = teams, selected = "France"),
-                 selectInput("location", "Select the game location:", choices = c("Home","Neutral","Away"), selected = "Neutral")
+                 selectInput("location", "Select the location of the first team:", choices = c("Home","Neutral","Away"), selected = "Neutral")
                ),
                mainPanel(
                  #tableOutput("prediction"),
                  plotOutput("prediction_bar")
                )
              )),
+    tabPanel("2024 Copa America Predictions",
+             includeHTML("https://raw.githubusercontent.com/bbwieland/international-soccer-rankings/main/copa-america-2024/CopaOdds.html")),
     tabPanel("Methodology")
   )
 )

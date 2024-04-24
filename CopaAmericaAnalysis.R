@@ -60,7 +60,7 @@ bracket_counts <- count_round("Quarterfinal") %>%
   mutate(Flag = countrycode(Team, origin = 'country.name', destination = 'iso2c')) %>%
   select(Flag, everything())
 
-bracket_counts %>%
+copa_html <- bracket_counts %>%
   arrange(-Quarterfinal) %>%
   gt() %>%
   gt_theme_538() %>%
@@ -77,3 +77,5 @@ bracket_counts %>%
   tab_source_note("Based on 1,000 tournament simulations. Knockout round penalty shootouts determined randomly.") %>%
   fmt_flag(Flag)
 
+
+gtsave(copa_html, "copa-america-2024/CopaOdds.html")
