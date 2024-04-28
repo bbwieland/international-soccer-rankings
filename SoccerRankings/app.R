@@ -237,6 +237,8 @@ predict_match <- function(team1, team2, location) {
 # Necessary Variables -----------------------------------------------------
 
 teams <- unique(rankings$team)
+methodology <- readr::read_file("https://raw.githubusercontent.com/bbwieland/international-soccer-rankings/main/Methodology.md")
+
 
 # UI ----------------------------------------------------------------------
 
@@ -260,7 +262,8 @@ ui <- fluidPage(
              )),
     tabPanel("2024 Copa America Predictions",
              includeHTML("https://raw.githubusercontent.com/bbwieland/international-soccer-rankings/main/copa-america-2024/CopaOdds.html")),
-    tabPanel("Methodology")
+    tabPanel("Methodology",
+             includeMarkdown(methodology))
   )
 )
 

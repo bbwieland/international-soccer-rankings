@@ -1,54 +1,18 @@
+Despite international soccer's status as the world's most popular sport, its low-scoring nature and highly variable results have meant that team rating and match prediction systems lag behind other higher-scoring popular sports such as NFL football and NBA basketball. Instead, the most prominent set of team ratings — the FIFA world rankings — holds very little predictive value and reinforces existing biases in rating systems based on arbitrary continent coefficients and match weightings.
 
-# Calculating Team Ratings
+Our JUDE predictive model set out to change this. It doesn't reward teams for the federations they belong to, instead only taking into account their performances on the pitch. Rather than seeking to describe how a team has performed in the past like FIFA's rankings, we forecast how teams are likely to play in the future. Additionally, we make our predictive model publicly available and freely accessible for all Internet users; previous research in this field typically remains paywalled or privatized by sportsbooks seeking profit. Publicly available and transparent international soccer forecasts will help fans, analysts, and journalists take a more informed approach to the sport which brings the world together.  
+#### Team Rankings
 
-The model contains two fixed parameters: an intercept term equal to the average number of goals per team-game and an adjustment for the game’s location to account for home-field advantage. Additionally, it contains random effects terms for each of the two teams in the game. 
+Team ratings are calculated based on the final scores of every match played by every team since the start of 1993, when FIFA's current Rules of the Game were officially codified. A mixed-effects model identifies the strongest and weakest teams in the FIFA pool while controlling for home-field advantage and strength of opponent and assigning less weight to matches played further in the past to provide the most current analysis of each team's strength. 
 
-Two separate models were trained per game, one from each team’s “perspective,” offensive and defensive effects for each team in the game are computed. For a match between Team A and Team B, the model for goals scored by Team A yields random effects terms for Team A’s offensive ability and Team B’s defensive ability; the model for goals scored by Team B yields random effects for Team B’s offensive ability and Team A’s defensive ability. 
+The model reports rankings in terms of goals against average: a team's offensive rating represents how many more goals they would be expected to score than an average team in a random game, while defensive rating (lower is better) represents how many goals they would concede compared to that hypothetical average team. Net ratings — our all-in-one rating system — come from adding a team's goals scored and goals conceded values together. 
+#### Match Projections
 
-The dummy variable Location is used to encode information about the location of a match and treated as a numeric variable in the model: 1 for home matches, 0 for neutral-site matches, and -1 for away matches. This method of encoding the dummy variable is preferred to traditional one-hot encoding for three reasons: it results in a more practical interpretation of the associated beta value, it guarantees that neutral-site games will not have any home or away effect, and its flexibility allows for the potential encoding of “semi-home” or “semi-away”matches (e.g. a match between England and the United States played in Wales) with values between 0 and 1 in future models. 
+Using the model's team rankings, users can generate forecasts for any hypothetical match between any two teams at any location. Users select the sides and the location, and the computer handles the rest, generating a bar-graph visualization of win/loss/draw probabilities designed to be shareable via text or social media.
 
-The two models were trained in R using the lme4 package using all international matches 
-since January 1, 1993. The start date of 1993 was chosen because it marks the most recent time FIFA updated its Rules of the Game; the rule changes caused a significant uptick in scoring in international matches, so including pre-1993 data would require undesirable additional transformations of the response variable to control for its non-stationary mean over time.
+These projections are based on the model's team rankings. First, a most likely final score for each game is obtained based on solely the team ratings and the match location. Then, those most-likely final scores serve as the basis for a statistical distribution of potential match results. This match result model, a diagonal-inflated bivariate Poisson distribution, incorporates uncertainty into our predictions: as any soccer fan knows, nothing can be certain in a low-scoring, high-variance sport. Finally, we aggregate this distribution into three simple probabilities to make it as interpretable as possible: the odds of a win, loss, or draw for each team. 
+#### 2024 Copa America Predictions
 
-Exploratory data analysis of goals scored and allowed by teams at the game level suggested that the data broadly follow a Poisson distribution, a conclusion supported by recent soccer match prediction literature. Since the Poisson-distributed count data are clearly not suitable for traditional linear regression due to heteroscedastic errors and the fact that the response can only take integer values, a Poisson regression model was fit to the data with a log link function used to ensure that the transformed response took only positive values. The Poisson model allowed variance to increase along with the mean since forPoisson-distributed random variables the two values are equal. It also ensured score predictions greater than zero for all games, a necessary property not satisfied by other hypothesized generalized linear models such as gamma regression. 
+While predicting an individual match is a useful feature on its own, where the JUDE model shines is in its ability to simulate and forecast full tournaments, such as this year's Copa America. Using Monte Carlo simulation techniques, we played the tournament — all 24 group-play games and seven elimination matches — 1,000 times for a grand total of 31,000 forecasted matches. Then, we aggregated the results and observed the simulated odds of a variety of positive outcomes ranging from a team simply qualifying for the elimination rounds to their overall chances of winning the tournament. 
 
-In order to account for the time-dependent nature of the observations, an exponential decay filter was implemented to increase the importance of more recent games to the model’s  estimates. This filter weighted games by a factor of one-half to the power of d/H where d is the number of days elapsed between the current date and the match date and H is the half-life for each game’s importance. Backtesting and evaluating model performance suggested the best value for H to be 2,190 days or six years. Practically, this means matches played six yearsago from the current date hold 50 percent as much weight in the model as matches played onthe current date.
-
-Finally, fitting the mixed-effects Poisson models in R yielded offensive and defensive coefficients for each team which could be used to rank teams using net effects as well as generate individual match predictions.
-
-# Calculating Projections
-
-Previous research into soccer match prediction suggests that final scores typically follow a bivariate Poisson distribution inflated along the diagonal by a draw-inflation matrix. This diagonal inflation, which is estimated to produce an increase of approximately 10% in the number of expected draws compared to a typical bivariate Poisson distribution, is hypothesized to occur because of the observed conservative and defense-oriented strategies of teams in close games late — a phenomenon linked to loss aversion. Without this adjustment,
-the match-prediction model consistently overestimates the number of wins and losses in relation to draws. 
-
-Using the predictions for team and opponent score using the team-strength model outlined in the previous section yields two lambda parameters representing the expected number of goals scored by each team in the match. Multiplying the bivariate Poisson distribution produced by those two parameters by the draw-inflation matrix, equal to 1 in all locations not along the diagonal and 1.1 along the diagonal, yields a results matrix with the probabilities of each potential final score. This results matrix is rescaled by a factor of 1
-divided by the sum of the results matrix to ensure that it represents a valid probability mass function which sums to 1. 
-
-The results matrix R can be translated into soccer terms quite easily. Assuming the x-dimension represents goals scored by Team A and the y-dimension represents goals scored by Team B:
-  -   Team A’s win probability equals the sum of all values below the diagonal.
-  -   Team B’s win probability equals the sum of all values above the diagonal.
-  -   The probability of a draw equals the trace of the matrix, or the sum along the diagonal.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+These odds add a probabilistic element to key questions about the tournament. For example, Brazil and Argentina are generally considered the two strongest teams in the field (and rank first and second in our worldwide ratings), but their chances of winning the Copa are just 35 and 21 percent, respectively: single elimination competition is incredibly hard! The flexibility of the simulation also allows us to answer compelling counterfactuals. For example, the United States will host the 2024 Copa, so every one of their matches will be a home game. Over the course of a full tournament, that home-field advantage adds up: USA won the tournament in 7.8 percent of simulations with home-field advantage, but that number fell to just under 5 percent in a second set of simulations where their matches were played at neutral sites instead.
