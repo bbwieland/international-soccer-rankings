@@ -1,17 +1,19 @@
+### Application Overview
+
 Despite international soccer's status as the world's most popular sport, its low-scoring nature and highly variable results have meant that team rating and match prediction systems lag behind other higher-scoring popular sports such as NFL football and NBA basketball. Instead, the most prominent set of team ratings — the FIFA world rankings — holds very little predictive value and reinforces existing biases in rating systems based on arbitrary continent coefficients and match weightings.
 
 Our JUDE predictive model set out to change this. It doesn't reward teams for the federations they belong to, instead only taking into account their performances on the pitch. Rather than seeking to describe how a team has performed in the past like FIFA's rankings, we forecast how teams are likely to play in the future. Additionally, we make our predictive model publicly available and freely accessible for all Internet users; previous research in this field typically remains paywalled or privatized by sportsbooks seeking profit. Publicly available and transparent international soccer forecasts will help fans, analysts, and journalists take a more informed approach to the sport which brings the world together.  
-#### Team Rankings
+### Team Rankings
 
 Team ratings are calculated based on the final scores of every match played by every team since the start of 1993, when FIFA's current Rules of the Game were officially codified. A mixed-effects model identifies the strongest and weakest teams in the FIFA pool while controlling for home-field advantage and strength of opponent and assigning less weight to matches played further in the past to provide the most current analysis of each team's strength. 
 
 The model reports rankings in terms of goals against average: a team's offensive rating represents how many more goals they would be expected to score than an average team in a random game, while defensive rating (lower is better) represents how many goals they would concede compared to that hypothetical average team. Net ratings — our all-in-one rating system — come from adding a team's goals scored and goals conceded values together. 
-#### Match Projections
+### Match Projections
 
 Using the model's team rankings, users can generate forecasts for any hypothetical match between any two teams at any location. Users select the sides and the location, and the computer handles the rest, generating a bar-graph visualization of win/loss/draw probabilities designed to be shareable via text or social media.
 
 These projections are based on the model's team rankings. First, a most likely final score for each game is obtained based on solely the team ratings and the match location. Then, those most-likely final scores serve as the basis for a statistical distribution of potential match results. This match result model, a diagonal-inflated bivariate Poisson distribution, incorporates uncertainty into our predictions: as any soccer fan knows, nothing can be certain in a low-scoring, high-variance sport. Finally, we aggregate this distribution into three simple probabilities to make it as interpretable as possible: the odds of a win, loss, or draw for each team. 
-#### 2024 Copa America Predictions
+### 2024 Copa America Predictions
 
 While predicting an individual match is a useful feature on its own, where the JUDE model shines is in its ability to simulate and forecast full tournaments, such as this year's Copa America. Using Monte Carlo simulation techniques, we played the tournament — all 24 group-play games and seven elimination matches — 1,000 times for a grand total of 31,000 forecasted matches. Then, we aggregated the results and observed the simulated odds of a variety of positive outcomes ranging from a team simply qualifying for the elimination rounds to their overall chances of winning the tournament. 
 
