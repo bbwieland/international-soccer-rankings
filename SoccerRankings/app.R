@@ -322,6 +322,7 @@ app_theme = "sandstone"
 ui <- fluidPage(
   theme = shinytheme(app_theme),
   titlePanel("JUDE International Soccer Ratings", windowTitle = "JUDE Ratings"),
+  p("Public open-source estimates of international soccer team strength."),
   tabsetPanel(
     tabPanel("Team Rankings",
              reactableOutput("homepage")),
